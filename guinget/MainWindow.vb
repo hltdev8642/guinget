@@ -104,23 +104,14 @@ Public Class aaformMainWindow
         ' Go through everything in the manifest paths array until it's out if
         ' we don't want to load from a database.
         If My.Settings.LoadFromSqliteDb = False Then
-            For i As Integer = 0 To ManifestPaths.Count - 1
+            ' Fill the data table from the manifests.
+            Await PackageInfo.FillPackageListDataTableFromManifests(PackageListDataTable, ManifestPaths)
 
-                ' Read the file into the manifest column and make a new row with it.
-                PackageListDataTable.Rows.Add("Do nothing",
-                                              "Unknown",
-                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Id"),
-                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
-                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
-                                              "Unknown",
-                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"),
-                                              ManifestPaths(i))
+            ' Make the progress bar progress.
+            'aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
+            ' Update the statusbar to show the current info.
+            'aaformMainWindow.statusbarMainWindow.Update()
 
-                ' Make the progress bar progress.
-                aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
-                ' Update the statusbar to show the current info.
-                aaformMainWindow.statusbarMainWindow.Update()
-            Next
         Else
             ' We do want to load from the database, so do it.
             Dim SqliteList As DataTable = PackageListTools.GetPackageDetailsTableFromSqliteDB()
@@ -148,7 +139,8 @@ Public Class aaformMainWindow
         End If
 
         ' Add the columns from the data source.
-        aaformMainWindow.datagridviewPackageList.Rows.Add(PackageListDataTable.Rows)
+        aaformMainWindow.datagridviewPackageList.DataBindings.Clear()
+        aaformMainWindow.datagridviewPackageList.DataSource = PackageListDataTable
 
 
         ' Update the main window now that the list is loaded.
@@ -1195,10 +1187,23 @@ Public Class PackageInfo
         Return PackageListDataTable
     End Function
 
-    ' Create the combobox column.
-    ' This code might help:
-    ' https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn.datasource?view=netframework-4.8
-    Private Shared Function CreateActionCombobox() As DataGridViewComboBoxColumn
+    Public Shared Async Function FillPackageListDataTableFromManifests(PackageListDataTable As DataTable, ManifestPaths As List(Of String)) As Task(Of DataTable)
+        ' Fill data table from manifests.
+        For i As Integer = 0 To ManifestPaths.Count - 1
 
+            ' Read the file into the manifest column and make a new row with it.
+
+            PackageListDataTable.Rows.Add("Do nothing",
+                       "Unknown",
+                       Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString(), "Id"),
+                       Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
+                       Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
+                       "Unknown",
+                       Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"),
+                       ManifestPaths(i))
+        Next
+
+        Return PackageListDataTable
     End Function
+
 End Class
