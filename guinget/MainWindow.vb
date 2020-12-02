@@ -113,7 +113,8 @@ Public Class aaformMainWindow
                                               Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
                                               Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
                                               "Unknown",
-                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"), ManifestPaths(i))
+                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"),
+                                              ManifestPaths(i))
 
                 ' Make the progress bar progress.
                 aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
@@ -160,19 +161,6 @@ Public Class aaformMainWindow
 
         ' Now we load the details for each row.
         If My.Settings.LoadFromSqliteDb = False Then
-            For Each Row As DataRow In PackageListDataTable.Rows
-                ' Load package ID column.
-                Row.Item(2).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Item(7).Value.ToString, "Id")
-                ' Load package name column.
-                Row.Item(3).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Name")
-                ' Load package version column.
-                Row.Cells.Item(4).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Version")
-                ' Load package description column.
-                Row.Cells.Item(6).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Description")
-                ' Update the progressbar so it doesn't look frozen.
-                aaformMainWindow.toolstripprogressbarLoadingPackages.Value = Row.Index
-                aaformMainWindow.statusbarMainWindow.Update()
-            Next
 
             ' In case there are manifests we can't find easily,
             ' we need to get them now.
