@@ -98,7 +98,7 @@ Public Class aaformMainWindow
 
         ' Create a new data table that we'll bind to
         ' the datagridview.
-        Dim PackageListDataTable As New DataTable
+        Dim PackageListDataTable As DataTable = PackageInfo.SetupPackageListDataTable()
 
 
         ' Go through everything in the manifest paths array until it's out if
@@ -1179,7 +1179,8 @@ Public Class PackageInfo
     Public Property Description As String
 
     ' Set up a data table for use in the package list.
-    Public Function SetupPackageListDataTable() As DataTable
+    Public Shared Function SetupPackageListDataTable() As DataTable
+        ' Define the data table.
         Dim PackageListDataTable As New DataTable
 
         ' Put in the columns.
@@ -1192,8 +1193,6 @@ Public Class PackageInfo
         PackageListDataTable.Columns.Add("Description")
         PackageListDataTable.Columns.Add("Manifest")
 
-
-
-
+        Return PackageListDataTable
     End Function
 End Class
