@@ -107,7 +107,13 @@ Public Class aaformMainWindow
             For i As Integer = 0 To ManifestPaths.Count - 1
 
                 ' Read the file into the manifest column and make a new row with it.
-                PackageListDataTable.Rows.Add("Do nothing", "Unknown", "Loading...", "Loading...", "Loading...", "Unknown", "Loading...", ManifestPaths(i))
+                PackageListDataTable.Rows.Add("Do nothing",
+                                              "Unknown",
+                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Id"),
+                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
+                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
+                                              "Unknown",
+                                              Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"), ManifestPaths(i))
 
                 ' Make the progress bar progress.
                 aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
@@ -154,11 +160,11 @@ Public Class aaformMainWindow
 
         ' Now we load the details for each row.
         If My.Settings.LoadFromSqliteDb = False Then
-            For Each Row As DataGridViewRow In aaformMainWindow.datagridviewPackageList.Rows
+            For Each Row As DataRow In PackageListDataTable.Rows
                 ' Load package ID column.
-                Row.Cells.Item(2).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Id")
+                Row.Item(2).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Item(7).Value.ToString, "Id")
                 ' Load package name column.
-                Row.Cells.Item(3).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Name")
+                Row.Item(3).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Name")
                 ' Load package version column.
                 Row.Cells.Item(4).Value = Await PackageTools.GetPackageInfoFromYamlAsync(Row.Cells.Item(7).Value.ToString, "Version")
                 ' Load package description column.
