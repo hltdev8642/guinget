@@ -1175,6 +1175,11 @@ Public Class PackageInfo
         PackageListDataTable.Columns.Add("Description")
         PackageListDataTable.Columns.Add("Manifest")
 
+        For Each Column As DataColumn In PackageListDataTable.Columns
+            ' Set properties for all the columns.
+            Column.ReadOnly = True
+        Next
+
         ' Return the data table.
         Return PackageListDataTable
     End Function
