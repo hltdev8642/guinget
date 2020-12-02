@@ -147,6 +147,10 @@ Public Class aaformMainWindow
             Next
         End If
 
+        ' Add the columns from the data source.
+        aaformMainWindow.datagridviewPackageList.Rows.Add(PackageListDataTable.Rows)
+
+
         ' Update the main window now that the list is loaded.
         aaformMainWindow.Update()
 
@@ -1187,6 +1191,14 @@ Public Class PackageInfo
         PackageListDataTable.Columns.Add("Description")
         PackageListDataTable.Columns.Add("Manifest")
 
+        ' Return the data table.
         Return PackageListDataTable
+    End Function
+
+    ' Create the combobox column.
+    ' This code might help:
+    ' https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn.datasource?view=netframework-4.8
+    Private Shared Function CreateActionCombobox() As DataGridViewComboBoxColumn
+
     End Function
 End Class
