@@ -107,7 +107,7 @@ Public Class aaformMainWindow
             For i As Integer = 0 To ManifestPaths.Count - 1
 
                 ' Read the file into the manifest column and make a new row with it.
-                aaformMainWindow.datagridviewPackageList.Rows.Add("Do nothing", "Unknown", "Loading...", "Loading...", "Loading...", "Unknown", "Loading...", ManifestPaths(i))
+                PackageListDataTable.Rows.Add("Do nothing", "Unknown", "Loading...", "Loading...", "Loading...", "Unknown", "Loading...", ManifestPaths(i))
 
                 ' Make the progress bar progress.
                 aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
