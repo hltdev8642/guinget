@@ -59,11 +59,6 @@ Public Class aaformMainWindow
         ' this slightly faster.
         aaformMainWindow.datagridviewPackageList.Visible = False
 
-
-
-        ' Clear the rows.
-        aaformMainWindow.datagridviewPackageList.Rows.Clear()
-
         ' Reset progress bar to 0.
         aaformMainWindow.toolstripprogressbarLoadingPackages.Value = 0
 
@@ -139,9 +134,7 @@ Public Class aaformMainWindow
         End If
 
         ' Add the columns from the data source.
-        aaformMainWindow.datagridviewPackageList.DataBindings.Clear()
         aaformMainWindow.datagridviewPackageList.DataSource = PackageListDataTable
-
 
         ' Update the main window now that the list is loaded.
         aaformMainWindow.Update()
@@ -354,7 +347,7 @@ Public Class aaformMainWindow
 
         ' Turn autosize back on for certain columns.
         aaformMainWindow.PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        aaformMainWindow.PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        'aaformMainWindow.PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
         ' Hide progress bar and info label.
         ProgressInfoVisibility(False)
@@ -381,26 +374,26 @@ Public Class aaformMainWindow
         ' Get package details if the manifest cell isn't Nothing and the manifest exists.
         ' This prevents crashes in case the database is broken.
 
-        If My.Settings.ShowLastSelectedPackageDetails = False Then
-            ' Make sure we only show package details for the first-selected package.
-            If datagridviewPackageList.SelectedRows.Count = 1 Then
-                ShowSelectedPackageDetails()
-            End If
-        Else
-            ' If we want to show the last-selected package, then we can just do that.
-            ' Make sure it's greater than 0, or else it'll crash when turning the
-            ' database mode on and off then refreshing the cache during the same session.
-            If datagridviewPackageList.SelectedRows.Count > 0 Then
-                ShowSelectedPackageDetails()
-            End If
-        End If
+        'If My.Settings.ShowLastSelectedPackageDetails = False Then
+        '    ' Make sure we only show package details for the first-selected package.
+        '    If datagridviewPackageList.SelectedRows.Count = 1 Then
+        '        ShowSelectedPackageDetails()
+        '    End If
+        'Else
+        '    ' If we want to show the last-selected package, then we can just do that.
+        '    ' Make sure it's greater than 0, or else it'll crash when turning the
+        '    ' database mode on and off then refreshing the cache during the same session.
+        '    If datagridviewPackageList.SelectedRows.Count > 0 Then
+        '        ShowSelectedPackageDetails()
+        '    End If
+        'End If
 
-        ' Determine if menuitems should be allowed.
-        If datagridviewPackageList.SelectedRows.Count = 1 Then
-            AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(True)
-        Else
-            AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(False)
-        End If
+        '' Determine if menuitems should be allowed.
+        'If datagridviewPackageList.SelectedRows.Count = 1 Then
+        '    AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(True)
+        'Else
+        '    AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(False)
+        'End If
 
 
     End Sub
@@ -760,22 +753,22 @@ Public Class aaformMainWindow
             datagridviewPackageList.RowTemplate.Height = 48
             ' Change the height of all the packages in there.
             PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-            PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            'PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             For Each PackageRow As DataGridViewRow In datagridviewPackageList.Rows
                 PackageRow.Height = 48
             Next
             PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-            PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            'PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
         Else
             ' Turn off HiDPI mode.
             datagridviewPackageList.RowTemplate.Height = 24
             PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
-            PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
+            'PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None
             For Each PackageRow As DataGridViewRow In datagridviewPackageList.Rows
                 PackageRow.Height = 24
             Next
             PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-            PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            'PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
         End If
     End Sub
 #End Region
@@ -843,11 +836,11 @@ Public Class aaformMainWindow
                         searchRow.Visible = False
                     End If
                 ElseIf searchRow.Cells.Item(2).Value.ToString.ToLowerInvariant.Contains(SearchTerm.ToLowerInvariant) Then
-                        ' If the Package ID cell contains what's in the search box, show it.
-                        searchRow.Visible = True
-                    Else
-                        ' Otherwise, hide it.
-                        searchRow.Visible = False
+                    ' If the Package ID cell contains what's in the search box, show it.
+                    searchRow.Visible = True
+                Else
+                    ' Otherwise, hide it.
+                    searchRow.Visible = False
                 End If
                 ' Make the progress bar progress.
                 aaformMainWindow.toolstripprogressbarLoadingPackages.PerformStep()
@@ -862,7 +855,7 @@ Public Class aaformMainWindow
 
             ' Turn autosize back on for certain columns.
             aaformMainWindow.PkgAction.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-            aaformMainWindow.PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+            'aaformMainWindow.PkgStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
             ' Show the package list again.
             aaformMainWindow.datagridviewPackageList.Visible = True
@@ -1174,7 +1167,6 @@ Public Class PackageInfo
         Dim PackageListDataTable As New DataTable
 
         ' Put in the columns.
-        PackageListDataTable.Columns.Add("Action")
         PackageListDataTable.Columns.Add("Status")
         PackageListDataTable.Columns.Add("Package")
         PackageListDataTable.Columns.Add("Name")
@@ -1193,8 +1185,7 @@ Public Class PackageInfo
 
             ' Read the file into the manifest column and make a new row with it.
 
-            PackageListDataTable.Rows.Add("Do nothing",
-                       "Unknown",
+            PackageListDataTable.Rows.Add("Unknown",
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString(), "Id"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
