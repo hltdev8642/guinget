@@ -96,6 +96,11 @@ Public Class aaformMainWindow
             Exit Function
         End If
 
+        ' Create a new data table that we'll bind to
+        ' the datagridview.
+        Dim PackageListDataTable As New DataTable
+
+
         ' Go through everything in the manifest paths array until it's out if
         ' we don't want to load from a database.
         If My.Settings.LoadFromSqliteDb = False Then
@@ -112,6 +117,7 @@ Public Class aaformMainWindow
         Else
             ' We do want to load from the database, so do it.
             Dim SqliteList As DataTable = PackageListTools.GetPackageDetailsTableFromSqliteDB()
+
             'MessageBox.Show(SqliteList.Rows.Item(0).ToString)
             'aaformMainWindow.datagridviewPackageList.DataSource = SqliteList
             For Each PackageRow As DataRow In SqliteList.Rows
@@ -1171,4 +1177,23 @@ Public Class PackageInfo
     Public Property InstalledVersion As String
     Public Property AvailableVersion As String
     Public Property Description As String
+
+    ' Set up a data table for use in the package list.
+    Public Function SetupPackageListDataTable() As DataTable
+        Dim PackageListDataTable As New DataTable
+
+        ' Put in the columns.
+        PackageListDataTable.Columns.Add("Action")
+        PackageListDataTable.Columns.Add("Status")
+        PackageListDataTable.Columns.Add("Package")
+        PackageListDataTable.Columns.Add("Name")
+        PackageListDataTable.Columns.Add("Version")
+        PackageListDataTable.Columns.Add("Latest Version")
+        PackageListDataTable.Columns.Add("Description")
+        PackageListDataTable.Columns.Add("Manifest")
+
+
+
+
+    End Function
 End Class
