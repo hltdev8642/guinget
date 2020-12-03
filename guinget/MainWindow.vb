@@ -95,16 +95,11 @@ Public Class aaformMainWindow
             Exit Function
         End If
 
-        ' Create a new data table that we'll bind to
-        ' the datagridview.
-        Dim PackageListDataTable As DataTable = PackageInfo.SetupPackageListDataTable()
-
-
         ' Go through everything in the manifest paths array until it's out if
         ' we don't want to load from a database.
         If My.Settings.LoadFromSqliteDb = False Then
             ' Fill the data table from the manifests.
-            Await PackageInfo.FillPackageListDataTableFromManifests(PackageListDataTable, ManifestPaths)
+            Await PackageInfo.FillPackageListDataTableFromManifests(ManifestPaths)
 
             ' Make the progress bar progress.
             'aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
@@ -141,7 +136,8 @@ Public Class aaformMainWindow
         aaformMainWindow.datagridviewPackageList.DataSource = Nothing
 
         ' Set data source to the table.
-        aaformMainWindow.datagridviewPackageList.DataSource = PackageListDataTable
+        aaformMainWindow.datagridviewPackageList.DataSource = aaformMainWindow.DataTablePackageList
+        aaformMainWindow.datagridviewPackageList.Columns(0).DataPropertyName = "PkgAction"
 
         ' Update the main window now that the list is loaded.
         aaformMainWindow.Update()
@@ -1168,37 +1164,40 @@ Public Class PackageInfo
     Public Property AvailableVersion As String
     Public Property Description As String
 
-    ' Set up a data table for use in the package list.
-    Public Shared Function SetupPackageListDataTable() As DataTable
-        ' Define the data table.
-        Dim PackageListDataTable As New DataTable
+    '' Set up a data table for use in the package list.
+    'Public Shared Function SetupPackageListDataTable() As DataTable
+    '    ' Define the data table.
+    '    Dim PackageListDataTable As New DataTable
 
-        ' Put in the columns.
-        PackageListDataTable.Columns.Add("Action")
-        PackageListDataTable.Columns.Add("Status")
-        PackageListDataTable.Columns.Add("Package")
-        PackageListDataTable.Columns.Add("Name")
-        PackageListDataTable.Columns.Add("Version")
-        PackageListDataTable.Columns.Add("Latest Version")
-        PackageListDataTable.Columns.Add("Description")
-        PackageListDataTable.Columns.Add("Manifest")
+    '    ' Put in the columns.
+    '    PackageListDataTable.Columns.Add("Action")
+    '    PackageListDataTable.Columns.Add("Status")
+    '    PackageListDataTable.Columns.Add("Package")
+    '    PackageListDataTable.Columns.Add("Name")
+    '    PackageListDataTable.Columns.Add("Version")
+    '    PackageListDataTable.Columns.Add("Latest Version")
+    '    PackageListDataTable.Columns.Add("Description")
+    '    PackageListDataTable.Columns.Add("Manifest")
 
-        For Each Column As DataColumn In PackageListDataTable.Columns
-            ' Set properties for all the columns.
-            Column.ReadOnly = True
-        Next
+    '    ' Set column data properties.
+    '    PackageListDataTable.Data
 
-        ' Return the data table.
-        Return PackageListDataTable
-    End Function
+    '    For Each Column As DataColumn In PackageListDataTable.Columns
+    '        ' Set properties for all the columns.
+    '        Column.ReadOnly = True
+    '    Next
 
-    Public Shared Async Function FillPackageListDataTableFromManifests(PackageListDataTable As DataTable, ManifestPaths As List(Of String)) As Task(Of DataTable)
+    '    ' Return the data table.
+    '    Return PackageListDataTable
+    'End Function
+
+    Public Shared Async Function FillPackageListDataTableFromManifests(ManifestPaths As List(Of String)) As Task(Of DataTable)
         ' Fill data table from manifests.
         For i As Integer = 0 To ManifestPaths.Count - 1
 
             ' Read the file into the manifest column and make a new row with it.
 
-            PackageListDataTable.Rows.Add("Do nothing",
+            aaformMainWindow.DataTablePackageList.Rows.Add("Do nothing",
                                           "Unknown",
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString(), "Id"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
@@ -1208,7 +1207,7 @@ Public Class PackageInfo
                        ManifestPaths(i))
         Next
 
-        Return PackageListDataTable
+        Return aaformMainWindow.DataTablePackageList
     End Function
 
 End Class
