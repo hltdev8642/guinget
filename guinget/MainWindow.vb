@@ -96,7 +96,7 @@ Public Class aaformMainWindow
         End If
 
         ' Clear rows in data table.
-        aaformMainWindow.DataTablePackageList.Rows.Clear()
+        aaformMainWindow.DataTablePackageList.Clear()
 
         ' Go through everything in the manifest paths array until it's out if
         ' we don't want to load from a database.
