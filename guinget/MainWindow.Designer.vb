@@ -23,9 +23,9 @@ Partial Class aaformMainWindow
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(aaformMainWindow))
         Me.menustripMainWindow = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -70,6 +70,14 @@ Partial Class aaformMainWindow
         Me.splitcontainerMainWindow = New System.Windows.Forms.SplitContainer()
         Me.panelPackageListHolder = New System.Windows.Forms.Panel()
         Me.datagridviewPackageList = New System.Windows.Forms.DataGridView()
+        Me.PkgAction = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.PkgStatus = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgId = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgVersion = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgLatestVersion = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PkgManifest = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.labelUpdatingPackageList = New System.Windows.Forms.Label()
         Me.textboxPackageDetails = New System.Windows.Forms.TextBox()
         Me.panelMainPkgArea = New System.Windows.Forms.Panel()
@@ -123,14 +131,7 @@ Partial Class aaformMainWindow
         Me.DataColumnPkgLatestVersion = New System.Data.DataColumn()
         Me.DataColumnPkgDescription = New System.Data.DataColumn()
         Me.DataColumnPkgManifest = New System.Data.DataColumn()
-        Me.PkgAction = New System.Windows.Forms.DataGridViewComboBoxColumn()
-        Me.PkgStatus = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgId = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgVersion = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgLatestVersion = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgDescription = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.PkgManifest = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.BindingSourcePackageList = New System.Windows.Forms.BindingSource(Me.components)
         Me.menustripMainWindow.SuspendLayout()
         Me.contextmenustripPackageMenu.SuspendLayout()
         CType(Me.splitcontainerMainWindow, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,6 +159,7 @@ Partial Class aaformMainWindow
         Me.statusbarMainWindow.SuspendLayout()
         CType(Me.DataSetPackageList, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DataTablePackageList, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSourcePackageList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'menustripMainWindow
@@ -456,37 +458,37 @@ Partial Class aaformMainWindow
         Me.datagridviewPackageList.AllowUserToResizeRows = False
         Me.datagridviewPackageList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.datagridviewPackageList.BackgroundColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.datagridviewPackageList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.datagridviewPackageList.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.datagridviewPackageList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.datagridviewPackageList.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PkgAction, Me.PkgStatus, Me.PkgId, Me.PkgName, Me.PkgVersion, Me.PkgLatestVersion, Me.PkgDescription, Me.PkgManifest})
         Me.datagridviewPackageList.ContextMenuStrip = Me.contextmenustripPackageMenu
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.datagridviewPackageList.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.datagridviewPackageList.DefaultCellStyle = DataGridViewCellStyle5
         Me.datagridviewPackageList.Dock = System.Windows.Forms.DockStyle.Fill
         Me.datagridviewPackageList.Location = New System.Drawing.Point(0, 0)
         Me.datagridviewPackageList.Margin = New System.Windows.Forms.Padding(2)
         Me.datagridviewPackageList.Name = "datagridviewPackageList"
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.datagridviewPackageList.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.datagridviewPackageList.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
         Me.datagridviewPackageList.RowHeadersVisible = False
         Me.datagridviewPackageList.RowHeadersWidth = 51
         Me.datagridviewPackageList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
@@ -496,6 +498,62 @@ Partial Class aaformMainWindow
         Me.datagridviewPackageList.Size = New System.Drawing.Size(664, 337)
         Me.datagridviewPackageList.StandardTab = True
         Me.datagridviewPackageList.TabIndex = 0
+        '
+        'PkgAction
+        '
+        Me.PkgAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.PkgAction.HeaderText = "Action"
+        Me.PkgAction.Items.AddRange(New Object() {"Do nothing", "Install"})
+        Me.PkgAction.MinimumWidth = 6
+        Me.PkgAction.Name = "PkgAction"
+        Me.PkgAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.PkgAction.Width = 62
+        '
+        'PkgStatus
+        '
+        Me.PkgStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.PkgStatus.HeaderText = "Status"
+        Me.PkgStatus.Name = "PkgStatus"
+        Me.PkgStatus.ReadOnly = True
+        Me.PkgStatus.Width = 62
+        '
+        'PkgId
+        '
+        Me.PkgId.HeaderText = "Package"
+        Me.PkgId.Name = "PkgId"
+        Me.PkgId.ReadOnly = True
+        '
+        'PkgName
+        '
+        Me.PkgName.HeaderText = "Name"
+        Me.PkgName.Name = "PkgName"
+        Me.PkgName.ReadOnly = True
+        '
+        'PkgVersion
+        '
+        Me.PkgVersion.HeaderText = "Version"
+        Me.PkgVersion.Name = "PkgVersion"
+        Me.PkgVersion.ReadOnly = True
+        '
+        'PkgLatestVersion
+        '
+        Me.PkgLatestVersion.HeaderText = "Latest version"
+        Me.PkgLatestVersion.Name = "PkgLatestVersion"
+        Me.PkgLatestVersion.ReadOnly = True
+        Me.PkgLatestVersion.Visible = False
+        '
+        'PkgDescription
+        '
+        Me.PkgDescription.HeaderText = "Description"
+        Me.PkgDescription.Name = "PkgDescription"
+        Me.PkgDescription.ReadOnly = True
+        '
+        'PkgManifest
+        '
+        Me.PkgManifest.HeaderText = "Manifest"
+        Me.PkgManifest.Name = "PkgManifest"
+        Me.PkgManifest.ReadOnly = True
+        Me.PkgManifest.Visible = False
         '
         'labelUpdatingPackageList
         '
@@ -966,61 +1024,10 @@ Partial Class aaformMainWindow
         Me.DataColumnPkgManifest.Caption = "Manifest"
         Me.DataColumnPkgManifest.ColumnName = "PkgManifest"
         '
-        'PkgAction
+        'BindingSourcePackageList
         '
-        Me.PkgAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.PkgAction.HeaderText = "Action"
-        Me.PkgAction.Items.AddRange(New Object() {"Do nothing", "Install"})
-        Me.PkgAction.MinimumWidth = 6
-        Me.PkgAction.Name = "PkgAction"
-        Me.PkgAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.PkgAction.Width = 62
-        '
-        'PkgStatus
-        '
-        Me.PkgStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.PkgStatus.HeaderText = "Status"
-        Me.PkgStatus.Name = "PkgStatus"
-        Me.PkgStatus.ReadOnly = True
-        Me.PkgStatus.Width = 62
-        '
-        'PkgId
-        '
-        Me.PkgId.HeaderText = "Package"
-        Me.PkgId.Name = "PkgId"
-        Me.PkgId.ReadOnly = True
-        '
-        'PkgName
-        '
-        Me.PkgName.HeaderText = "Name"
-        Me.PkgName.Name = "PkgName"
-        Me.PkgName.ReadOnly = True
-        '
-        'PkgVersion
-        '
-        Me.PkgVersion.HeaderText = "Version"
-        Me.PkgVersion.Name = "PkgVersion"
-        Me.PkgVersion.ReadOnly = True
-        '
-        'PkgLatestVersion
-        '
-        Me.PkgLatestVersion.HeaderText = "Latest version"
-        Me.PkgLatestVersion.Name = "PkgLatestVersion"
-        Me.PkgLatestVersion.ReadOnly = True
-        Me.PkgLatestVersion.Visible = False
-        '
-        'PkgDescription
-        '
-        Me.PkgDescription.HeaderText = "Description"
-        Me.PkgDescription.Name = "PkgDescription"
-        Me.PkgDescription.ReadOnly = True
-        '
-        'PkgManifest
-        '
-        Me.PkgManifest.HeaderText = "Manifest"
-        Me.PkgManifest.Name = "PkgManifest"
-        Me.PkgManifest.ReadOnly = True
-        Me.PkgManifest.Visible = False
+        Me.BindingSourcePackageList.DataSource = Me.DataSetPackageList
+        Me.BindingSourcePackageList.Position = 0
         '
         'aaformMainWindow
         '
@@ -1068,6 +1075,7 @@ Partial Class aaformMainWindow
         Me.statusbarMainWindow.PerformLayout()
         CType(Me.DataSetPackageList, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DataTablePackageList, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BindingSourcePackageList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1177,4 +1185,5 @@ Partial Class aaformMainWindow
     Friend WithEvents PkgLatestVersion As DataGridViewTextBoxColumn
     Friend WithEvents PkgDescription As DataGridViewTextBoxColumn
     Friend WithEvents PkgManifest As DataGridViewTextBoxColumn
+    Friend WithEvents BindingSourcePackageList As BindingSource
 End Class

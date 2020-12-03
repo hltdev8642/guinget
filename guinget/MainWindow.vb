@@ -59,6 +59,10 @@ Public Class aaformMainWindow
         ' this slightly faster.
         aaformMainWindow.datagridviewPackageList.Visible = False
 
+
+        ' Don't auto-create columns.
+        aaformMainWindow.datagridviewPackageList.AutoGenerateColumns = False
+
         ' Reset progress bar to 0.
         aaformMainWindow.toolstripprogressbarLoadingPackages.Value = 0
 
@@ -133,7 +137,10 @@ Public Class aaformMainWindow
             Next
         End If
 
-        ' Add the columns from the data source.
+        ' Set datasource to nothing.
+        aaformMainWindow.datagridviewPackageList.DataSource = Nothing
+
+        ' Set data source to the table.
         aaformMainWindow.datagridviewPackageList.DataSource = PackageListDataTable
 
         ' Update the main window now that the list is loaded.
@@ -1167,6 +1174,7 @@ Public Class PackageInfo
         Dim PackageListDataTable As New DataTable
 
         ' Put in the columns.
+        PackageListDataTable.Columns.Add("Action")
         PackageListDataTable.Columns.Add("Status")
         PackageListDataTable.Columns.Add("Package")
         PackageListDataTable.Columns.Add("Name")
@@ -1190,7 +1198,8 @@ Public Class PackageInfo
 
             ' Read the file into the manifest column and make a new row with it.
 
-            PackageListDataTable.Rows.Add("Unknown",
+            PackageListDataTable.Rows.Add("Do nothing",
+                                          "Unknown",
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString(), "Id"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
