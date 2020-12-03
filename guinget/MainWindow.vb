@@ -362,26 +362,26 @@ Public Class aaformMainWindow
         ' Get package details if the manifest cell isn't Nothing and the manifest exists.
         ' This prevents crashes in case the database is broken.
 
-        'If My.Settings.ShowLastSelectedPackageDetails = False Then
-        '    ' Make sure we only show package details for the first-selected package.
-        '    If datagridviewPackageList.SelectedRows.Count = 1 Then
-        '        ShowSelectedPackageDetails()
-        '    End If
-        'Else
-        '    ' If we want to show the last-selected package, then we can just do that.
-        '    ' Make sure it's greater than 0, or else it'll crash when turning the
-        '    ' database mode on and off then refreshing the cache during the same session.
-        '    If datagridviewPackageList.SelectedRows.Count > 0 Then
-        '        ShowSelectedPackageDetails()
-        '    End If
-        'End If
+        If My.Settings.ShowLastSelectedPackageDetails = False Then
+            ' Make sure we only show package details for the first-selected package.
+            If datagridviewPackageList.SelectedRows.Count = 1 Then
+                ShowSelectedPackageDetails()
+            End If
+        Else
+            ' If we want to show the last-selected package, then we can just do that.
+            ' Make sure it's greater than 0, or else it'll crash when turning the
+            ' database mode on and off then refreshing the cache during the same session.
+            If datagridviewPackageList.SelectedRows.Count > 0 Then
+                ShowSelectedPackageDetails()
+            End If
+        End If
 
-        '' Determine if menuitems should be allowed.
-        'If datagridviewPackageList.SelectedRows.Count = 1 Then
-        '    AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(True)
-        'Else
-        '    AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(False)
-        'End If
+        ' Determine if menuitems should be allowed.
+        If datagridviewPackageList.SelectedRows.Count = 1 Then
+            AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(True)
+        Else
+            AllowUsingStuffThatOnlyDoesThingsWhenOnePackageIsSelected(False)
+        End If
 
 
     End Sub
@@ -1207,7 +1207,7 @@ Public Class PackageInfo
         For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
 
             ' Find the manifest and get its description.
-            Dim ManifestPath As String = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Item(0).ToString, PackageRow.Item(3).ToString)
+            Dim ManifestPath As String = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Item(0).ToString, PackageRow.Item(2).ToString)
 
             ' Define a variable to store the description.
             Dim Description As String = String.Empty
