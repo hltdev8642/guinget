@@ -107,6 +107,14 @@ Public Class aaformMainWindow
             'aaformMainWindow.statusbarMainWindow.Update()
 
         Else
+
+            ' In case there are manifests we can't find easily,
+            ' we need to get them now.
+            ' These have to be grabbed now or else updating the manifests
+            ' will crash when the path doesn't exist.
+            PackageListTools.FallbackPathList = PackageListTools.GetManifests
+
+
             ' We do want to load from the database, so do it.
             Await PackageInfo.FillPackageListDataTableFromDatabase(PackageListTools.GetPackageDetailsTableFromSqliteDB)
 
@@ -154,32 +162,10 @@ Public Class aaformMainWindow
 
 
         ElseIf My.Settings.LoadFromSqliteDb = True Then
-            ' In case there are manifests we can't find easily,
-            ' we need to get them now.
-            ' These have to be grabbed now or else updating the manifests
-            ' will crash when the path doesn't exist.
-            PackageListTools.FallbackPathList = PackageListTools.GetManifests
 
             ' Now we need to load the manifests and the descriptions.
             For Each PackageRow As DataGridViewRow In aaformMainWindow.datagridviewPackageList.Rows
-                ' Find the manifest and get its description.
-                PackageRow.Cells.Item(7).Value = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Cells.Item(2).Value.ToString, PackageRow.Cells.Item(4).Value.ToString)
 
-                ' Ensure the manifest path cell isn't nothing.
-                ' The database was broken just after 1 AM EDT
-                ' on October 8, 2020, so this is to prevent
-                ' future crashes, even if the database is broken
-                ' again.
-                If PackageRow.Cells.Item(7).Value IsNot Nothing Then
-                    PackageRow.Cells.Item(6).Value = Await PackageTools.GetPackageInfoFromYamlAsync(PackageRow.Cells.Item(7).Value.ToString, "Description")
-                Else
-                    ' If the value in the manifest path cell is nothing, change the description.
-                    PackageRow.Cells.Item(6).Value = "(Couldn't find manifest)"
-                End If
-                ' Make the progress bar progress.
-                aaformMainWindow.toolstripprogressbarLoadingPackages.Value = PackageRow.Index
-                ' Update the statusbar to show the current info.
-                aaformMainWindow.statusbarMainWindow.Update()
             Next
         End If
 
@@ -1220,7 +1206,26 @@ Public Class PackageInfo
         'Await Task.Run(Sub()
         For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
 
-                               If My.Settings.OnlyDisplayLatestPackageVersion = True Then
+            ' Find the manifest and get its description.
+            Dim ManifestPath As String = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Item(2).ToString, PackageRow.Item(4).ToString)
+
+            ' Define a variable to store the description.
+            Dim Description As String = String.Empty
+
+            ' Determine whether we can find the manifest.
+            ' Ensure the manifest path isn't Nothing.
+            ' The database was broken just after 1 AM EDT
+            ' on October 8, 2020, so this is to prevent
+            ' future crashes, even if the database is broken
+            ' again.
+            If ManifestPath IsNot Nothing Then
+                Description = Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPath, "Description")
+            Else
+                ' If the value in the manifest path cell is nothing, change the description.
+                Description = "(Couldn't find manifest)"
+            End If
+
+            If My.Settings.OnlyDisplayLatestPackageVersion = True Then
                 ' If the user wants to only display the latest package version,
                 ' we'll have to compare it.
                 If PackageRow.Item(2).ToString = PackageRow.Item(3).ToString Then
@@ -1232,8 +1237,8 @@ Public Class PackageInfo
                                                                    PackageRow.Item(1),
                                                                    PackageRow.Item(2),
                                                                    PackageRow.Item(3),
-                                                                   "Loading...",
-                                                                   "Loading...")
+                                                                   Description,
+                                                                   ManifestPath)
                 End If
             Else
                 ' Just add all the package versions.
@@ -1243,8 +1248,8 @@ Public Class PackageInfo
                                                                PackageRow.Item(1),
                                                                PackageRow.Item(2),
                                                                PackageRow.Item(3),
-                                                               "Loading...",
-                                                               "Loading...")
+                                                               Description,
+                                                               ManifestPath)
             End If
             ' Make the progress bar progress.
             aaformMainWindow.toolstripprogressbarLoadingPackages.PerformStep()
@@ -1252,6 +1257,7 @@ Public Class PackageInfo
             aaformMainWindow.statusbarMainWindow.Update()
         Next
         'End Sub)
+
         Return aaformMainWindow.DataTablePackageList
     End Function
 
