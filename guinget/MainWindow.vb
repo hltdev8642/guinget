@@ -108,7 +108,7 @@ Public Class aaformMainWindow
 
         Else
             ' We do want to load from the database, so do it.
-            Dim SqliteList As DataTable = PackageListTools.GetPackageDetailsTableFromSqliteDB()
+            Await PackageInfo.FillPackageListDataTableFromDatabase(PackageListTools.GetPackageDetailsTableFromSqliteDB)
 
             'MessageBox.Show(SqliteList.Rows.Item(0).ToString)
             'aaformMainWindow.datagridviewPackageList.DataSource = SqliteList
