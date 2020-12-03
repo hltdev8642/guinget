@@ -152,11 +152,12 @@ Public Class aaformMainWindow
         ' Now we load the details for each row.
         If My.Settings.LoadFromSqliteDb = False Then
 
+
+        ElseIf My.Settings.LoadFromSqliteDb = True Then
             ' In case there are manifests we can't find easily,
             ' we need to get them now.
             ' These have to be grabbed now or else updating the manifests
             ' will crash when the path doesn't exist.
-        ElseIf My.Settings.LoadFromSqliteDb = True Then
             PackageListTools.FallbackPathList = PackageListTools.GetManifests
 
             ' Now we need to load the manifests and the descriptions.
