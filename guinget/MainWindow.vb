@@ -95,6 +95,9 @@ Public Class aaformMainWindow
             Exit Function
         End If
 
+        ' Clear rows in data table.
+        aaformMainWindow.DataTablePackageList.Rows.Clear()
+
         ' Go through everything in the manifest paths array until it's out if
         ' we don't want to load from a database.
         If My.Settings.LoadFromSqliteDb = False Then
