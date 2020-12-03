@@ -70,6 +70,7 @@ Partial Class aaformMainWindow
         Me.splitcontainerMainWindow = New System.Windows.Forms.SplitContainer()
         Me.panelPackageListHolder = New System.Windows.Forms.Panel()
         Me.datagridviewPackageList = New System.Windows.Forms.DataGridView()
+        Me.PkgAction = New System.Windows.Forms.DataGridViewComboBoxColumn()
         Me.labelUpdatingPackageList = New System.Windows.Forms.Label()
         Me.textboxPackageDetails = New System.Windows.Forms.TextBox()
         Me.panelMainPkgArea = New System.Windows.Forms.Panel()
@@ -113,7 +114,16 @@ Partial Class aaformMainWindow
         Me.zCantFindThisPackagePropertiesMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.zSeparatorNoIdeaWhereThisIs = New System.Windows.Forms.ToolStripSeparator()
         Me.TypeTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.PkgAction = New System.Windows.Forms.DataGridViewComboBoxColumn()
+        Me.DataSetPackageList = New System.Data.DataSet()
+        Me.DataTablePackageList = New System.Data.DataTable()
+        Me.DataColumnPkgAction = New System.Data.DataColumn()
+        Me.DataColumnPkgStatus = New System.Data.DataColumn()
+        Me.DataColumnPkgId = New System.Data.DataColumn()
+        Me.DataColumnPkgName = New System.Data.DataColumn()
+        Me.DataColumnPkgVersion = New System.Data.DataColumn()
+        Me.DataColumnPkgLatestVersion = New System.Data.DataColumn()
+        Me.DataColumnPkgDescription = New System.Data.DataColumn()
+        Me.DataColumnPkgManifest = New System.Data.DataColumn()
         Me.menustripMainWindow.SuspendLayout()
         Me.contextmenustripPackageMenu.SuspendLayout()
         CType(Me.splitcontainerMainWindow, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -139,6 +149,8 @@ Partial Class aaformMainWindow
         Me.tabpageArchitecture.SuspendLayout()
         Me.panelMainForm.SuspendLayout()
         Me.statusbarMainWindow.SuspendLayout()
+        CType(Me.DataSetPackageList, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DataTablePackageList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'menustripMainWindow
@@ -477,6 +489,16 @@ Partial Class aaformMainWindow
         Me.datagridviewPackageList.Size = New System.Drawing.Size(664, 337)
         Me.datagridviewPackageList.StandardTab = True
         Me.datagridviewPackageList.TabIndex = 0
+        '
+        'PkgAction
+        '
+        Me.PkgAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
+        Me.PkgAction.HeaderText = "Action"
+        Me.PkgAction.Items.AddRange(New Object() {"Do nothing", "Install"})
+        Me.PkgAction.MinimumWidth = 6
+        Me.PkgAction.Name = "PkgAction"
+        Me.PkgAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.PkgAction.Width = 62
         '
         'labelUpdatingPackageList
         '
@@ -897,15 +919,55 @@ Partial Class aaformMainWindow
         '
         Me.TypeTimer.Interval = 325
         '
-        'PkgAction
+        'DataSetPackageList
         '
-        Me.PkgAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells
-        Me.PkgAction.HeaderText = "Action"
-        Me.PkgAction.Items.AddRange(New Object() {"Do nothing", "Install"})
-        Me.PkgAction.MinimumWidth = 6
-        Me.PkgAction.Name = "PkgAction"
-        Me.PkgAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.PkgAction.Width = 62
+        Me.DataSetPackageList.DataSetName = "PackageList"
+        Me.DataSetPackageList.Tables.AddRange(New System.Data.DataTable() {Me.DataTablePackageList})
+        '
+        'DataTablePackageList
+        '
+        Me.DataTablePackageList.Columns.AddRange(New System.Data.DataColumn() {Me.DataColumnPkgAction, Me.DataColumnPkgStatus, Me.DataColumnPkgId, Me.DataColumnPkgName, Me.DataColumnPkgVersion, Me.DataColumnPkgLatestVersion, Me.DataColumnPkgDescription, Me.DataColumnPkgManifest})
+        Me.DataTablePackageList.TableName = "PackageListTable"
+        '
+        'DataColumnPkgAction
+        '
+        Me.DataColumnPkgAction.Caption = "Action"
+        Me.DataColumnPkgAction.ColumnName = "PkgAction"
+        '
+        'DataColumnPkgStatus
+        '
+        Me.DataColumnPkgStatus.Caption = "Status"
+        Me.DataColumnPkgStatus.ColumnName = "PkgStatus"
+        '
+        'DataColumnPkgId
+        '
+        Me.DataColumnPkgId.Caption = "Package"
+        Me.DataColumnPkgId.ColumnName = "PkgId"
+        '
+        'DataColumnPkgName
+        '
+        Me.DataColumnPkgName.Caption = "Name"
+        Me.DataColumnPkgName.ColumnName = "PkgName"
+        '
+        'DataColumnPkgVersion
+        '
+        Me.DataColumnPkgVersion.Caption = "Version"
+        Me.DataColumnPkgVersion.ColumnName = "PkgVersion"
+        '
+        'DataColumnPkgLatestVersion
+        '
+        Me.DataColumnPkgLatestVersion.Caption = "Latest Version"
+        Me.DataColumnPkgLatestVersion.ColumnName = "PkgLatestVersion"
+        '
+        'DataColumnPkgDescription
+        '
+        Me.DataColumnPkgDescription.Caption = "Description"
+        Me.DataColumnPkgDescription.ColumnName = "PkgDescription"
+        '
+        'DataColumnPkgManifest
+        '
+        Me.DataColumnPkgManifest.Caption = "Manifest"
+        Me.DataColumnPkgManifest.ColumnName = "PkgManifest"
         '
         'aaformMainWindow
         '
@@ -951,6 +1013,8 @@ Partial Class aaformMainWindow
         Me.panelMainForm.ResumeLayout(False)
         Me.statusbarMainWindow.ResumeLayout(False)
         Me.statusbarMainWindow.PerformLayout()
+        CType(Me.DataSetPackageList, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DataTablePackageList, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1043,4 +1107,14 @@ Partial Class aaformMainWindow
     Friend WithEvents HowToUseGuingetToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HelpMenuToolStripSeparator As ToolStripSeparator
     Friend WithEvents PkgAction As DataGridViewComboBoxColumn
+    Friend WithEvents DataSetPackageList As DataSet
+    Friend WithEvents DataTablePackageList As DataTable
+    Friend WithEvents DataColumnPkgAction As DataColumn
+    Friend WithEvents DataColumnPkgStatus As DataColumn
+    Friend WithEvents DataColumnPkgId As DataColumn
+    Friend WithEvents DataColumnPkgName As DataColumn
+    Friend WithEvents DataColumnPkgVersion As DataColumn
+    Friend WithEvents DataColumnPkgLatestVersion As DataColumn
+    Friend WithEvents DataColumnPkgDescription As DataColumn
+    Friend WithEvents DataColumnPkgManifest As DataColumn
 End Class
