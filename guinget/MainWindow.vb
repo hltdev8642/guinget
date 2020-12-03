@@ -1149,32 +1149,6 @@ Public Class PackageInfo
     Public Property AvailableVersion As String
     Public Property Description As String
 
-    '' Set up a data table for use in the package list.
-    'Public Shared Function SetupPackageListDataTable() As DataTable
-    '    ' Define the data table.
-    '    Dim PackageListDataTable As New DataTable
-
-    '    ' Put in the columns.
-    '    PackageListDataTable.Columns.Add("Action")
-    '    PackageListDataTable.Columns.Add("Status")
-    '    PackageListDataTable.Columns.Add("Package")
-    '    PackageListDataTable.Columns.Add("Name")
-    '    PackageListDataTable.Columns.Add("Version")
-    '    PackageListDataTable.Columns.Add("Latest Version")
-    '    PackageListDataTable.Columns.Add("Description")
-    '    PackageListDataTable.Columns.Add("Manifest")
-
-    '    ' Set column data properties.
-    '    PackageListDataTable.Data
-
-    '    For Each Column As DataColumn In PackageListDataTable.Columns
-    '        ' Set properties for all the columns.
-    '        Column.ReadOnly = True
-    '    Next
-
-    '    ' Return the data table.
-    '    Return PackageListDataTable
-    'End Function
 
     Public Shared Async Function FillPackageListDataTableFromManifests(ManifestPaths As List(Of String)) As Task(Of DataTable)
         ' Fill data table from manifests.
@@ -1194,8 +1168,8 @@ Public Class PackageInfo
             ' Update progress bar, though this should
             ' be moved to something that listens to a progress indicator
             ' with async stuff.
-            'aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
-            'aaformMainWindow.Update()
+            aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
+            aaformMainWindow.Update()
         Next
 
         Return aaformMainWindow.DataTablePackageList
