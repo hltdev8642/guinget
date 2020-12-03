@@ -103,27 +103,9 @@ Public Class aaformMainWindow
         If My.Settings.LoadFromSqliteDb = False Then
             ' Fill the data table from the manifests.
             Await PackageInfo.FillPackageListDataTableFromManifests(ManifestPaths)
-
-            ' Make the progress bar progress.
-            'aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
-            ' Update the statusbar to show the current info.
-            'aaformMainWindow.statusbarMainWindow.Update()
-
         Else
-
-            ' In case there are manifests we can't find easily,
-            ' we need to get them now.
-            ' These have to be grabbed now or else updating the manifests
-            ' will crash when the path doesn't exist.
-            PackageListTools.FallbackPathList = PackageListTools.GetManifests
-
-
             ' We do want to load from the database, so do it.
             Await PackageInfo.FillPackageListDataTableFromDatabase(PackageListTools.GetPackageDetailsTableFromSqliteDB)
-
-            'MessageBox.Show(SqliteList.Rows.Item(0).ToString)
-            'aaformMainWindow.datagridviewPackageList.DataSource = SqliteList
-
         End If
 
         ' Set datasource to nothing.
@@ -1161,6 +1143,12 @@ Public Class PackageInfo
     End Function
 
     Public Shared Async Function FillPackageListDataTableFromDatabase(SqliteDatabaseTable As DataTable) As Task(Of DataTable)
+        ' In case there are manifests we can't find easily,
+        ' we need to get them now.
+        ' These have to be grabbed now or else updating the manifests
+        ' will crash when the path doesn't exist.
+        PackageListTools.FallbackPathList = PackageListTools.GetManifests
+
         ' Fill in the data table using the database.
         'Await Task.Run(Sub()
         For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
