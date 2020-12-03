@@ -148,29 +148,11 @@ Public Class aaformMainWindow
         aaformMainWindow.datagridviewPackageList.Columns(0).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
         aaformMainWindow.datagridviewPackageList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
 
-        ' Update the main window now that the list is loaded.
-        aaformMainWindow.Update()
-
         ' Set the progressbar to the maximum to make it look finished.
         aaformMainWindow.toolstripprogressbarLoadingPackages.Value = aaformMainWindow.toolstripprogressbarLoadingPackages.Maximum
 
-        ' Update loading label.
-        aaformMainWindow.toolstripstatuslabelLoadingPackageCount.Text = "Loading package details..."
-
         ' Update the main window again after making the list visible and changing the loading label.
         aaformMainWindow.Update()
-
-        ' Now we load the details for each row.
-        If My.Settings.LoadFromSqliteDb = False Then
-
-
-        ElseIf My.Settings.LoadFromSqliteDb = True Then
-
-            ' Now we need to load the manifests and the descriptions.
-            For Each PackageRow As DataGridViewRow In aaformMainWindow.datagridviewPackageList.Rows
-
-            Next
-        End If
 
         ' We're done updating the package list, so call the post-update sub.
         PackageListPostUpdate()
