@@ -1227,4 +1227,8 @@ Public Class PackageInfo
         Return aaformMainWindow.DataTablePackageList
     End Function
 
+    Public Shared Async Function FillPackageListDataTableFromDatabase(SqliteDatabaseTable As DataTable) As Task(Of DataTable)
+
+    End Function
+
 End Class
