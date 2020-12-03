@@ -146,6 +146,10 @@ Public Class aaformMainWindow
         aaformMainWindow.datagridviewPackageList.Columns(6).DataPropertyName = "PkgDescription"
         aaformMainWindow.datagridviewPackageList.Columns(7).DataPropertyName = "PkgManifest"
 
+        ' Set autosize mode for the columns back to what they should be.
+        aaformMainWindow.datagridviewPackageList.Columns(0).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        aaformMainWindow.datagridviewPackageList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+
         ' Update the main window now that the list is loaded.
         aaformMainWindow.Update()
 
