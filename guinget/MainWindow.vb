@@ -112,24 +112,7 @@ Public Class aaformMainWindow
 
             'MessageBox.Show(SqliteList.Rows.Item(0).ToString)
             'aaformMainWindow.datagridviewPackageList.DataSource = SqliteList
-            For Each PackageRow As DataRow In SqliteList.Rows
-                If My.Settings.OnlyDisplayLatestPackageVersion = True Then
-                    ' If the user wants to only display the latest package version,
-                    ' we'll have to compare it.
-                    If PackageRow.Item(2).ToString = PackageRow.Item(3).ToString Then
-                        ' Only add the package to the list if the package row we're looking
-                        ' at is the latest version of the package.
-                        aaformMainWindow.datagridviewPackageList.Rows.Add("Do nothing", "Unknown", PackageRow.Item(0), PackageRow.Item(1), PackageRow.Item(2), PackageRow.Item(3), "Loading...", "Loading...")
-                    End If
-                Else
-                    ' Just add all the package versions.
-                    aaformMainWindow.datagridviewPackageList.Rows.Add("Do nothing", "Unknown", PackageRow.Item(0), PackageRow.Item(1), PackageRow.Item(2), PackageRow.Item(3), "Loading...", "Loading...")
-                End If
-                ' Make the progress bar progress.
-                aaformMainWindow.toolstripprogressbarLoadingPackages.PerformStep()
-                ' Update the statusbar to show the current info.
-                aaformMainWindow.statusbarMainWindow.Update()
-            Next
+
         End If
 
         ' Set datasource to nothing.
@@ -1228,7 +1211,41 @@ Public Class PackageInfo
     End Function
 
     Public Shared Async Function FillPackageListDataTableFromDatabase(SqliteDatabaseTable As DataTable) As Task(Of DataTable)
+        ' Fill in the data table using the database.
+        For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
+            If My.Settings.OnlyDisplayLatestPackageVersion = True Then
+                ' If the user wants to only display the latest package version,
+                ' we'll have to compare it.
+                If PackageRow.Item(2).ToString = PackageRow.Item(3).ToString Then
+                    ' Only add the package to the list if the package row we're looking
+                    ' at is the latest version of the package.
+                    aaformMainWindow.DataTablePackageList.Rows.Add("Do nothing",
+                                                                   "Unknown",
+                                                                   PackageRow.Item(0),
+                                                                   PackageRow.Item(1),
+                                                                   PackageRow.Item(2),
+                                                                   PackageRow.Item(3),
+                                                                   "Loading...",
+                                                                   "Loading...")
+                End If
+            Else
+                ' Just add all the package versions.
+                aaformMainWindow.DataTablePackageList.Rows.Add("Do nothing",
+                                                               "Unknown",
+                                                               PackageRow.Item(0),
+                                                               PackageRow.Item(1),
+                                                               PackageRow.Item(2),
+                                                               PackageRow.Item(3),
+                                                               "Loading...",
+                                                               "Loading...")
+            End If
+            ' Make the progress bar progress.
+            aaformMainWindow.toolstripprogressbarLoadingPackages.PerformStep()
+            ' Update the statusbar to show the current info.
+            aaformMainWindow.statusbarMainWindow.Update()
+        Next
 
+        Return aaformMainWindow.DataTablePackageList
     End Function
 
 End Class
