@@ -1207,7 +1207,7 @@ Public Class PackageInfo
         For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
 
             ' Find the manifest and get its description.
-            Dim ManifestPath As String = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Item(2).ToString, PackageRow.Item(4).ToString)
+            Dim ManifestPath As String = Await PackageListTools.FindManifestByVersionAndId(PackageRow.Item(0).ToString, PackageRow.Item(3).ToString)
 
             ' Define a variable to store the description.
             Dim Description As String = String.Empty
