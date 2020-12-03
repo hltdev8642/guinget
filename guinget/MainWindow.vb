@@ -118,6 +118,10 @@ Public Class aaformMainWindow
         ' Set datasource to nothing.
         aaformMainWindow.datagridviewPackageList.DataSource = Nothing
 
+        ' Unset autosize for the columns.
+        aaformMainWindow.datagridviewPackageList.Columns(0).AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet
+        aaformMainWindow.datagridviewPackageList.Columns(1).AutoSizeMode = DataGridViewAutoSizeColumnMode.NotSet
+
         ' Set data source to the table.
         aaformMainWindow.datagridviewPackageList.DataSource = aaformMainWindow.DataTablePackageList
         aaformMainWindow.datagridviewPackageList.Columns(0).DataPropertyName = "PkgAction"
@@ -183,7 +187,7 @@ Public Class aaformMainWindow
 
     End Function
 
-    Friend Shared Async Sub PackageListPostUpdate()
+    Friend Shared Sub PackageListPostUpdate()
 
         ' Show the package list again.
 
@@ -1192,7 +1196,7 @@ Public Class PackageInfo
             ' Read the file into the manifest column and make a new row with it.
 
             aaformMainWindow.DataTablePackageList.Rows.Add("Do nothing",
-                                          "Unknown",
+                       "Unknown",
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString(), "Id"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Name"),
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Version"),
@@ -1203,8 +1207,8 @@ Public Class PackageInfo
             ' Update progress bar, though this should
             ' be moved to something that listens to a progress indicator
             ' with async stuff.
-            aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
-            aaformMainWindow.Update()
+            'aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
+            'aaformMainWindow.Update()
         Next
 
         Return aaformMainWindow.DataTablePackageList
@@ -1212,8 +1216,10 @@ Public Class PackageInfo
 
     Public Shared Async Function FillPackageListDataTableFromDatabase(SqliteDatabaseTable As DataTable) As Task(Of DataTable)
         ' Fill in the data table using the database.
+        'Await Task.Run(Sub()
         For Each PackageRow As DataRow In SqliteDatabaseTable.Rows
-            If My.Settings.OnlyDisplayLatestPackageVersion = True Then
+
+                               If My.Settings.OnlyDisplayLatestPackageVersion = True Then
                 ' If the user wants to only display the latest package version,
                 ' we'll have to compare it.
                 If PackageRow.Item(2).ToString = PackageRow.Item(3).ToString Then
@@ -1244,7 +1250,7 @@ Public Class PackageInfo
             ' Update the statusbar to show the current info.
             aaformMainWindow.statusbarMainWindow.Update()
         Next
-
+        'End Sub)
         Return aaformMainWindow.DataTablePackageList
     End Function
 
