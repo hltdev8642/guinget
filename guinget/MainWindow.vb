@@ -1212,6 +1212,12 @@ Public Class PackageInfo
                        "Unknown",
                        Await PackageTools.GetPackageInfoFromYamlAsync(ManifestPaths(i).ToString, "Description"),
                        ManifestPaths(i))
+
+            ' Update progress bar, though this should
+            ' be moved to something that listens to a progress indicator
+            ' with async stuff.
+            aaformMainWindow.toolstripprogressbarLoadingPackages.Value = i
+            aaformMainWindow.Update()
         Next
 
         Return aaformMainWindow.DataTablePackageList
