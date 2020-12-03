@@ -138,6 +138,13 @@ Public Class aaformMainWindow
         ' Set data source to the table.
         aaformMainWindow.datagridviewPackageList.DataSource = aaformMainWindow.DataTablePackageList
         aaformMainWindow.datagridviewPackageList.Columns(0).DataPropertyName = "PkgAction"
+        aaformMainWindow.datagridviewPackageList.Columns(1).DataPropertyName = "PkgStatus"
+        aaformMainWindow.datagridviewPackageList.Columns(2).DataPropertyName = "PkgId"
+        aaformMainWindow.datagridviewPackageList.Columns(3).DataPropertyName = "PkgName"
+        aaformMainWindow.datagridviewPackageList.Columns(4).DataPropertyName = "PkgVersion"
+        aaformMainWindow.datagridviewPackageList.Columns(5).DataPropertyName = "PkgLatestVersion"
+        aaformMainWindow.datagridviewPackageList.Columns(6).DataPropertyName = "PkgDescription"
+        aaformMainWindow.datagridviewPackageList.Columns(7).DataPropertyName = "PkgManifest"
 
         ' Update the main window now that the list is loaded.
         aaformMainWindow.Update()
